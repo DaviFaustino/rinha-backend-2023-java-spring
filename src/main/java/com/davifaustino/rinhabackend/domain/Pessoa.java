@@ -49,6 +49,10 @@ public class Pessoa {
         }
     }
 
+    public PessoaDto toPessoaDto() {
+        return new PessoaDto(id, apelido, nome, nascimento, stack);
+    }
+
     public UUID getId() {
         return id;
     }
