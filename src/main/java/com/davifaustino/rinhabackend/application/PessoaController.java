@@ -3,8 +3,11 @@ package com.davifaustino.rinhabackend.application;
 import java.net.URI;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,5 +29,12 @@ public class PessoaController {
         UUID uuid = pessoaService.savePessoa(pessoaDto);
 
         return ResponseEntity.created(URI.create("/pessoas/" + uuid.toString())).body(uuid);
+    }
+
+    @GetMapping(value = "/pessoas/{id}")
+    public ResponseEntity<PessoaDto> getOnePessoa(@PathVariable(value = "id") String id) {
+        PessoaDto pessoaDto = pessoaService.getOnePessoa(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaDto);
     }
 }
