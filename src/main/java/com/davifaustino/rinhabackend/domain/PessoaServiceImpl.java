@@ -19,5 +19,9 @@ public class PessoaServiceImpl implements PessoaServicePort {
             throw new UnprocessableException("Apelido existente");
         }
     }
-    
+
+    @Override
+    public PessoaDto getOnePessoa(String id) {
+        return pessoaRepository.getOnePessoa(UUID.fromString(id)).toPessoaDto();
+    }
 }
