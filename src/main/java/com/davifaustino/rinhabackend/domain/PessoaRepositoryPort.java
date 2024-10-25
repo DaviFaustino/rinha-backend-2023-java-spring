@@ -6,4 +6,5 @@ public interface PessoaRepositoryPort {
 
     public boolean existsByApelido(String apelido);
     public UUID savePessoa(Pessoa pessoa);
+    public Pessoa getOnePessoa(UUID id);
 }

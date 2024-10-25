@@ -3,6 +3,7 @@ package com.davifaustino.rinhabackend.infrastructure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.davifaustino.rinhabackend.domain.NotFoundException;
 import com.davifaustino.rinhabackend.domain.Pessoa;
 import com.davifaustino.rinhabackend.domain.PessoaRepositoryPort;
 
@@ -24,5 +25,12 @@ public class PessoaRepository implements PessoaRepositoryPort {
         springPessoaRepository.save(new PessoaEntity(pessoa));
         
         return pessoa.getId();
+    }
+
+    @Override
+    public Pessoa getOnePessoa(UUID id) {
+        PessoaEntity pessoaEntity = springPessoaRepository.findById(id).orElseThrow(() -> new NotFoundException("Pessoa nao encontrada"));
+
+        return pessoaEntity.toPessoa();
     }
 }
