@@ -1,7 +1,9 @@
 package com.davifaustino.rinhabackend.integration;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -186,5 +188,27 @@ public class PessoasTest {
                 .andReturn();
 
         assertEquals(400, result.getResponse().getStatus());
+    }
+
+    @Test
+    @DisplayName("Deve retornar com sucesso os detalhes de uma pessoa com status 200")
+    void getDetalhesPessoa1() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/pessoas/{id}", "3f306ba4-bcb1-4c7c-bfcb-78a747225eda")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        objectMapper.readValue(result.getResponse().getContentAsString(), PessoaDto.class);
+    }
+
+    @Test
+    @DisplayName("Deve retornar um erro 404 pela não existência da pessoa")
+    void getDetalhesPessoa2() throws Exception {
+
+        mockMvc.perform(get("/pessoas/{id}", "a804947b-36a4-4625-9cf9-3ef51f2a8170")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", is("Pessoa nao encontrada")));
     }
 }
