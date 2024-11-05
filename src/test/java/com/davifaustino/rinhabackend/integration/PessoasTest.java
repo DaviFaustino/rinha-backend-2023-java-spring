@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.davifaustino.rinhabackend.application.ErrorResponse;
 import com.davifaustino.rinhabackend.domain.PessoaDto;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -210,5 +212,88 @@ public class PessoasTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", is("Pessoa nao encontrada")));
+    }
+
+    @Test
+    @DisplayName("Deve retornar as pessoas com sucesso com status 200")
+    void getPessoas1() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/pessoas")
+                        .param("t", "java")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PessoaDto> listaPessoas = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<PessoaDto>>(){});
+        assertTrue(listaPessoas.size() == 3);
+    }
+
+    @Test
+    @DisplayName("Deve retornar as pessoas com sucesso com status 200")
+    void getPessoas2() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/pessoas")
+                        .param("t", "dino")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PessoaDto> listaPessoas = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<PessoaDto>>(){});
+        assertTrue(listaPessoas.size() == 1);
+    }
+
+    @Test
+    @DisplayName("Deve retornar as pessoas com sucesso com status 200")
+    void getPessoas3() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/pessoas")
+                        .param("t", "mat")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PessoaDto> listaPessoas = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<PessoaDto>>(){});
+        assertTrue(listaPessoas.size() == 1);
+    }
+
+    @Test
+    @DisplayName("Deve retornar json vazio com status 200")
+    void getPessoas4() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/pessoas")
+                        .param("t", "dilma")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PessoaDto> listaPessoas = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<PessoaDto>>(){});
+        assertTrue(listaPessoas.size() == 0);
+    }
+
+    @Test
+    @DisplayName("Deve retornar um erro com status 400 por t está em branco")
+    void getPessoas5() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/pessoas")
+                        .param("t", "")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        ErrorResponse errorResponse = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorResponse.class);
+        assertEquals("Termo em branco", errorResponse.message());
+    }
+
+    @Test
+    @DisplayName("Deve retornar um erro com status 400 por t não ter sido informado")
+    void getPessoas6() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/pessoas")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        ErrorResponse errorResponse = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorResponse.class);
+        assertEquals("Termo nulo", errorResponse.message());
     }
 }
