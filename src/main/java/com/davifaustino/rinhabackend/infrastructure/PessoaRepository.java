@@ -38,7 +38,6 @@ public class PessoaRepository implements PessoaRepositoryPort {
 
     @Override
     public List<Pessoa> getPessoas(String termo) {
-        System.out.println(termo);
         List<PessoaEntity> pessoaEntities = springPessoaRepository.findByBuscaIgnoreCaseContaining(termo);
 
         return pessoaEntities.stream().map(pessoaEntity -> pessoaEntity.toPessoa()).collect(Collectors.toList());

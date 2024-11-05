@@ -29,7 +29,6 @@ public class PessoaServiceImpl implements PessoaServicePort {
 
     @Override
     public List<PessoaDto> getPessoas(String termo) {
-        System.out.println("oi =" + termo);
         if (termo == null) throw new BadRequestException("Termo nulo");
         if (termo.isBlank()) throw new BadRequestException("Termo em branco");
 
