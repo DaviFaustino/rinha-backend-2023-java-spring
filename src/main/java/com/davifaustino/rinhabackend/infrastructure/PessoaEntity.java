@@ -21,6 +21,8 @@ public class PessoaEntity {
     private String nome;
     private String nascimento;
     private List<String> stack;
+    @SuppressWarnings("unused")
+    private String busca;
 
     public PessoaEntity(Pessoa pessoa) {
         this.id = pessoa.getId();
@@ -28,6 +30,7 @@ public class PessoaEntity {
         this.nome = pessoa.getNome();
         this.nascimento = pessoa.getNascimento();
         this.stack = pessoa.getStack();
+        this.busca = pessoa.getBusca();
     }
 
     public Pessoa toPessoa() {
