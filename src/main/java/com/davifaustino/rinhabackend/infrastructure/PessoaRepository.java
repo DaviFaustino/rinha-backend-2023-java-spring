@@ -7,7 +7,9 @@ import com.davifaustino.rinhabackend.domain.NotFoundException;
 import com.davifaustino.rinhabackend.domain.Pessoa;
 import com.davifaustino.rinhabackend.domain.PessoaRepositoryPort;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class PessoaRepository implements PessoaRepositoryPort {
@@ -32,5 +34,13 @@ public class PessoaRepository implements PessoaRepositoryPort {
         PessoaEntity pessoaEntity = springPessoaRepository.findById(id).orElseThrow(() -> new NotFoundException("Pessoa nao encontrada"));
 
         return pessoaEntity.toPessoa();
+    }
+
+    @Override
+    public List<Pessoa> getPessoas(String termo) {
+        System.out.println(termo);
+        List<PessoaEntity> pessoaEntities = springPessoaRepository.findByBuscaIgnoreCaseContaining(termo);
+
+        return pessoaEntities.stream().map(pessoaEntity -> pessoaEntity.toPessoa()).collect(Collectors.toList());
     }
 }
