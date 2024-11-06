@@ -296,4 +296,16 @@ public class PessoasTest {
         ErrorResponse errorResponse = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorResponse.class);
         assertEquals("Termo nulo", errorResponse.message());
     }
+
+    @Test
+    @DisplayName("Deve retornar a quantidade de pessoas no banco com status 200")
+    void getPessoasCounting() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/contagem-pessoas")
+                                            .accept(MediaType.APPLICATION_JSON))
+                                    .andExpect(status().isOk())
+                                    .andReturn();
+
+        assertEquals("5", result.getResponse().getContentAsString());
+    }
 }
