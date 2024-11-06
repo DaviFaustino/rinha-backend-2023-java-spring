@@ -42,4 +42,9 @@ public class PessoaRepository implements PessoaRepositoryPort {
 
         return pessoaEntities.stream().map(pessoaEntity -> pessoaEntity.toPessoa()).collect(Collectors.toList());
     }
+
+    @Override
+    public int getPessoasCounting() {
+        return springPessoaRepository.getPessoasCounting();
+    }
 }

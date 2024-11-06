@@ -9,4 +9,5 @@ public interface PessoaRepositoryPort {
     public UUID savePessoa(Pessoa pessoa);
     public Pessoa getOnePessoa(UUID id);
     public List<Pessoa> getPessoas(String termo);
+    public int getPessoasCounting();
 }
