@@ -17,4 +17,7 @@ public interface SpringPessoaRepository extends JpaRepository<PessoaEntity, UUID
                     "WHERE busca  ILIKE CONCAT('%', :termo, '%') " +
                     "LIMIT 50;", nativeQuery = true)
     List<PessoaEntity> findByBuscaIgnoreCaseContaining(@Param("termo") String termo);
+
+    @Query(value = "SELECT COUNT(*) FROM tb_pessoas;", nativeQuery = true)
+    int getPessoasCounting();
 }
