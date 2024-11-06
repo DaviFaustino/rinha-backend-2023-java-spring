@@ -47,4 +47,9 @@ public class PessoaController {
 
         return ResponseEntity.status(HttpStatus.OK).body(pessoaDtos);
     }
+
+    @GetMapping(value = "/contagem-pessoas")
+    public ResponseEntity<Integer> getContagemPessoas() {
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaService.getPessoasCounting());
+    }
 }
