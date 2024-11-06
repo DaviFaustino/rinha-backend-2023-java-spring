@@ -34,4 +34,9 @@ public class PessoaServiceImpl implements PessoaServicePort {
 
         return pessoaRepository.getPessoas(termo).stream().map(pessoa -> pessoa.toPessoaDto()).collect(Collectors.toList());
     }
+
+    @Override
+    public int getPessoasCounting() {
+        return pessoaRepository.getPessoasCounting();
+    }
 }

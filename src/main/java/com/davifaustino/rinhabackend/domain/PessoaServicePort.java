@@ -8,4 +8,5 @@ public interface PessoaServicePort {
     public UUID savePessoa(PessoaDto pessoaDto);
     public PessoaDto getOnePessoa(String id);
     public List<PessoaDto> getPessoas(String termo);
+    public int getPessoasCounting();
 }
